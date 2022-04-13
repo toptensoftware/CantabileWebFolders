@@ -41,6 +41,12 @@ var Application = function (_EndPoint) {
 	(0, _createClass3.default)(Application, [{
 		key: '_onOpen',
 		value: function _onOpen() {
+			/**
+    * Fired when any of the application properties change
+    * 
+    * @event changed
+    */
+
 			this.emit('busyChanged', this.busy);
 			this.emit('changed');
 		}
@@ -60,6 +66,13 @@ var Application = function (_EndPoint) {
 	}, {
 		key: '_onEvent_busyChanged',
 		value: function _onEvent_busyChanged(data) {
+			/**
+    * Fired when the application busy state changes
+    * 
+    * @event busyChanged
+    * @param {Boolean} busy True if the app is currently busy
+    */
+
 			this._data.busy = data.busy;
 			this.emit('busyChanged', this.busy);
 		}
@@ -130,10 +143,22 @@ var Application = function (_EndPoint) {
 		}
 
 		/**
-   * The application's busy status
-   * @property busy
-   * @type {Boolean}
+   * An array of color entries for the color index table
+   * @property build
+   * @type {ColorEntry[]}
    */
+
+	}, {
+		key: 'colors',
+		get: function get() {
+			return this._data ? this._data.colors : null;
+		}
+
+		/**
+  * The application's busy status
+  * @property busy
+  * @type {Boolean}
+  */
 
 	}, {
 		key: 'busy',
@@ -785,7 +810,7 @@ var Cantabile = function (_EventEmitter) {
 		/**
    * Provides access to master transport controls
    *
-   * @property song
+   * @property transport
    * @type {Song} 
    */
 		_this.transport = new (require('./Transport'))(_this);
@@ -1824,6 +1849,8 @@ var SetList = function (_EndPoint) {
 	}, {
 		key: 'currentSongIndex',
 		get: function get() {
+			if (!this._currentSong) return -1;
+			if (!this._data) return -1;
 			return this._data.items.indexOf(this._currentSong);
 		}
 
@@ -2454,6 +2481,8 @@ var States = function (_EndPoint) {
 	}, {
 		key: 'currentStateIndex',
 		get: function get() {
+			if (!this._currentState) return -1;
+			if (!this._data) return -1;
 			return this._data.items.indexOf(this._currentState);
 		}
 
