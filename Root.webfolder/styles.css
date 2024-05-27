@@ -189,7 +189,7 @@ footer button.busy div {
     transform: rotate(360deg);
   }
 }
-@media only screen and (max-width: 550px) {
+@media only screen and (max-width: 680px) {
   main {
     margin-bottom: 44px;
   }
