@@ -1,7 +1,7 @@
 <html>
 <head>
     <!-- Libraries -->
-    <script src="/lib/cantabile-js.min.js?v=16"></script>
+    <script src="/lib/cantabile-js.js?v=17"></script>
     <script src="/lib/vue.min.js"></script>
     <script src="/lib/vue-router.min.js"></script>
     <script src="/lib/smoothscroll.min.js"></script>
@@ -92,6 +92,7 @@
         <button id="play" v-bind:class="{checked: state=='playing'}" v-on:click="play()"></button>
         <button id="pause" v-bind:class="{checked: state=='paused'}" v-on:click="pause()"></button>
         <button id="stop" v-on:click="stop()"></button>
+        <button id="loopMode" v-bind:class="'loopMode_' + loopMode" v-on:click="cycleLoopMode()"></button>
     </div>
 </template>
 
@@ -311,16 +312,21 @@
 		data: function() { 
             return {
                 state: C.transport.state,
+                loopMode: C.transport.loopMode,
             }
         },
         created: function() {
             C.transport.on('stateChanged', this.h1 = (function() {
                 this.state = C.transport.state;
             }).bind(this));
+            C.transport.on('loopStateChanged', this.h2 = (function() {
+                this.loopMode = C.transport.loopMode;
+            }).bind(this));
             C.transport.open();
         },
         destroyed: function() {
             C.transport.removeListener('stateChanged', this.h1);
+            C.transport.removeListener('loopStateChanged', this.h2);
             C.transport.close();
         },
 		methods: {
@@ -335,6 +341,10 @@
             stop: function()
             {
                 C.transport.stop();
+            },
+            cycleLoopMode: function()
+            {
+                C.transport.cycleLoopMode();
             }
 		},
         template: '#transportButtons-template',

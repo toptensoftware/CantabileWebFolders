@@ -141,6 +141,21 @@ footer button#pause.checked {
 footer button#stop {
   background-image: url(/theme/dark/StopButton@2x.png);
 }
+footer button#loopMode {
+  background-image: url(/theme/dark/LoopModeNone@2x.png);
+}
+footer button#loopMode.loopMode_auto {
+  background-image: url(/theme/dark/LoopModeAuto@2x.png);
+}
+footer button#loopMode.loopMode_loopOnce {
+  background-image: url(/theme/dark/LoopModeLoopOnce@2x.png);
+}
+footer button#loopMode.loopMode_loop {
+  background-image: url(/theme/dark/LoopModeLoop@2x.png);
+}
+footer button#loopMode.loopMode_break {
+  background-image: url(/theme/dark/LoopModeBreak@2x.png);
+}
 footer button#continue {
   background-image: url(/theme/dark/NextButton@2x.png);
 }
