@@ -61,7 +61,7 @@
     <div class="itemlist">
         <h1>{{name}}</h1>
         <div v-for="(i, index) in items" v-bind:class="itemClasses(i)" v-on:click="loadSong(index)">
-            <span v-if="i.kind == 'song'" class="pr">{{i.pr+1}}</span>
+            <span v-if="i.kind == 'song'" class="pr">{{i.pr+appState.baseProgramNumber}}</span>
             <span class="title">{{i.name}}</span>
         </div>
     </div>
@@ -70,7 +70,7 @@
 <template id="states-template">
     <div class="itemlist">
         <div class="item" v-for="(i, index) in items" v-bind:class="itemClasses(i)" v-on:click="loadState(index)">
-            <span class="pr">{{i.pr+1}}</span>
+            <span class="pr">{{i.pr+appState.baseProgramNumber}}</span>
             <span class="title">{{i.name}}</span>
         </div>
     </div>
@@ -103,12 +103,18 @@
 	const C = new Cantabile();
 	C.connect();
 
+    /// Open the application endpoint so we can watch for busy status
+    C.application.open();
+
+    // Track base program number loading
+    const appState = Vue.observable({ baseProgramNumber: 1 })
+    C.application.on('open', () => 
+        appState.baseProgramNumber = C.application.baseProgramNumber
+    );
+
     // Open the bindings endpoint so target bindings can be invoked
     // via WebSockets instead of REST
     C.bindings.open();
-
-    /// Opent he application endpoint so we can watch for busy status
-    C.application.open();
 
     function updateBusyIndicator()
     {
