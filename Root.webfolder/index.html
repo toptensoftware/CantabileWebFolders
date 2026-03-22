@@ -97,9 +97,11 @@
 </template>
 
 
-<script>
+<script type="module">
 
-	// Create an instance of the Cantabile library and connect it
+    import { Cantabile } from './lib/cantabile.js';
+
+    // Create an instance of the Cantabile library and connect it
 	const C = new Cantabile();
 	C.connect();
 
@@ -107,9 +109,9 @@
     C.application.open();
 
     // Track base program number loading
-    const appState = Vue.observable({ baseProgramNumber: 1 })
+    window.appState = Vue.observable({ baseProgramNumber: 1 })
     C.application.on('open', () => 
-        appState.baseProgramNumber = C.application.baseProgramNumber
+        window.appState.baseProgramNumber = C.application.baseProgramNumber
     );
 
     // Open the bindings endpoint so target bindings can be invoked
